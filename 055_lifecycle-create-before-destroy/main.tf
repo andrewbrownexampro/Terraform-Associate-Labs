@@ -15,7 +15,7 @@ terraform {
 }
 
 resource "random_pet" "example" {
-  length = 2
+  length = 3
 
   lifecycle {
     create_before_destroy = true
