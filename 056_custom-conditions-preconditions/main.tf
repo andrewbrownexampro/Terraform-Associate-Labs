@@ -21,7 +21,7 @@ provider "azurerm" {
 variable "environment" {
   description = "Deployment environment"
   type        = string
-  default     = "prod" # intentionally wrong to demonstrate precondition failure (switch to dev after)
+  default     = "dev" # changed to dev to satisfy the precondition
 }
 
 resource "azurerm_resource_group" "rg" {
