@@ -18,11 +18,10 @@ provider "azurerm" {
   features {}
 }
 
-# Intentionally set wrong first to demonstrate failure
 variable "rg_location" {
   description = "Azure region for the resource group"
   type        = string
-  default     = "West US 2"
+  default     = "East US" # Changed to East US to satisfy the postcondition after initial failure
 }
 
 resource "azurerm_resource_group" "rg" {
