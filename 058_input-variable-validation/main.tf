@@ -34,7 +34,7 @@ variable "environment" {
 variable "resource_group_name" {
   description = "Name of the resource group (must start with rg-)"
   type        = string
-  default     = "resource-group-demo" # intentionally wrong
+  default     = "resource-group-demo" # intentionally wrong test
 
   validation {
     condition     = can(regex("^rg-[a-z0-9-]{3,20}$", var.resource_group_name))
