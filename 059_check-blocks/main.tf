@@ -31,7 +31,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 # CHECK BLOCK (runs after plan/apply)
-# We require an "environment" tag to exist on the deployed RG.
+# We require an "environment" tag to exist on the deployed RG
 check "rg_requires_environment_tag" {
   assert {
     condition     = contains(keys(azurerm_resource_group.rg.tags), "environment")
