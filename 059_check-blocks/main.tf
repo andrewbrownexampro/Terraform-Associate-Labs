@@ -24,9 +24,9 @@ resource "azurerm_resource_group" "rg" {
   name     = "rg-check-tags-demo"
   location = "East US"
 
-  # Intentionally missing "environment" tag to demonstrate a failing check
   tags = {
     owner = "terraform"
+    environment = "prod" # This tag is required by the check block below
   }
 }
 
