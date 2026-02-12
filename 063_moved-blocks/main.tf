@@ -16,11 +16,16 @@ terraform {
   }
 }
 
-# Step A: Start with a simple resource address.
-resource "random_pet" "rg" {
+moved {
+  from = random_pet.rg
+  to   = random_pet.resource_group_name
+}
+
+# Rename the resource for clarity
+resource "random_pet" "resource_group_name" {
   length = 2
 }
 
 output "pet_name" {
-  value = random_pet.rg.id
+  value = random_pet.resource_group_name.id
 }
