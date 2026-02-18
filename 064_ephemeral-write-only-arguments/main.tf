@@ -11,27 +11,27 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.0"
+      version = "~> 3.5"
+    }
+
+    terraform = {
+      source  = "hashicorp/terraform"
+      version = ">= 1.0.0"
     }
   }
 }
 
-# SECURE: ephemeral values are generated at runtime and NOT stored in state
+# Ephemeral Secret
 ephemeral "random_password" "db_password" {
   length  = 20
   special = true
 }
-
-# Write-only argument example
+# Write-Only Sink Resource
 resource "terraform_data" "secret_sink" {
-
-  # write-only input
-  input_wo = ephemeral.random_password.db_password.result
-
-  # version lets us rotate intentionally
+  input_wo         = ephemeral.random_password.db_password.result
   input_wo_version = 1
 }
-
+# Safe Output
 output "resource_id" {
   value = terraform_data.secret_sink.id
 }
