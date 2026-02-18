@@ -22,19 +22,16 @@ ephemeral "random_password" "db_password" {
   special = true
 }
 
-# Write-only argument example: Only a fingerprint is stored in state — not the secret.
-resource "random_id" "password_fingerprint" {
-  byte_length = 8
+# Write-only argument example
+resource "terraform_data" "secret_sink" {
 
-  # Write-only input (pretend this is a secret being passed to a real system)
-  keepers_wo = {
-    secret = ephemeral.random_password.db_password.result
-  }
+  # write-only input
+  input_wo = ephemeral.random_password.db_password.result
 
-  # Version bump lets you rotate the secret intentionally
-  keepers_wo_version = 1
+  # version lets us rotate intentionally
+  input_wo_version = 1
 }
 
-output "password_fingerprint" {
-  value = random_id.password_fingerprint.hex
+output "resource_id" {
+  value = terraform_data.secret_sink.id
 }
