@@ -16,15 +16,25 @@ terraform {
   }
 }
 
-# INSECURE BASELINE: random_password is stored in state
-resource "random_password" "db_password" {
+# SECURE: ephemeral values are generated at runtime and NOT stored in state
+ephemeral "random_password" "db_password" {
   length  = 20
   special = true
 }
 
-# We'll pretend this is "sending a secret somewhere"
-# (output is marked sensitive, but the value is still in state)
-output "db_password" {
-  value     = random_password.db_password.result
-  sensitive = true
+# Write-only argument example: Only a fingerprint is stored in state — not the secret.
+resource "random_id" "password_fingerprint" {
+  byte_length = 8
+
+  # Write-only input (pretend this is a secret being passed to a real system)
+  keepers_wo = {
+    secret = ephemeral.random_password.db_password.result
+  }
+
+  # Version bump lets you rotate the secret intentionally
+  keepers_wo_version = 1
+}
+
+output "password_fingerprint" {
+  value = random_id.password_fingerprint.hex
 }
